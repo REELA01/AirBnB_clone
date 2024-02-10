@@ -9,7 +9,12 @@ class BaseModel:
     """Baesmodel class represnation"""
 
     def __init__(self, *args, **kwargs):
-        """initializetion of BaseModel"""
+        """initializetion of BaseModel
+
+           Args:
+            *args (any): avoided
+            **kwargs (dict): Key/value pairs of attr
+        """
         iformat = "%Y-%m-%dT%H:%M:%S.%f"
         self.id = str(uuid4())
         self.created_at = datetime.today()
