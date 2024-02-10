@@ -31,11 +31,10 @@ class FileStorage:
 
     def save(self):
         """"do serilazation prosses"""
-        obj_2 = {}
-        for k in self.__objects:
-            obj_2[k] = self.__objects[k].to_dict()
-        with open(self.__file_path, 'w') as file_1:
-            json.dump(obj_2, file_1)
+        odict = FileStorage.__objects
+        objdict = {obj: odict[obj].to_dict() for obj in odict.keys()}
+        with open(FileStorage.__file_path, "w") as f:
+            json.dump(objdict, f)
 
     def reload(self):
         """do serilization prosses if json file exist"""
