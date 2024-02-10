@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Defines the HBnB console."""
+"""define the hbnb console"""
 import cmd
 from shlex import split
 import re
@@ -54,6 +54,10 @@ class HBNBCommand(cmd.Cmd):
         """EOF exit"""
         print("")
         return True
+
+    def emptyline(self):
+        """pass emptyline"""
+        pass
 
     def do_create(self, arg):
         """create new instance of basemodel calss"""
@@ -154,6 +158,36 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     obj.__dict__[ke] = val
         storage.save()
+
+    def do_count(self, arg):
+        """count the number of instance if a class"""
+        arg_1 = option(arg)
+        cnt = 0
+        for ob in storage.all().values():
+            if arg_1[0] == ob.__class__.__name__:
+                cnt += 1
+        print(cnt)
+
+    def default(self, arg):
+        """retrive the commands based on the id"""
+        dict_ar = {
+            "all": self.do_all,
+            "show": self.do_show,
+            "destroy": self.do_destroy,
+            "update": self.do_update,
+            "count": self.do_count
+        }
+        mch = re.search(r"\.", arg)
+        if mch is not None:
+            arg_1 = [arg[:mch.span()[0]], arg[mch.span()[1]:]]
+            mch = re.search(r"\((.*?)\)", arg_1[1])
+            if mch is not None:
+                cm = [arg_1[1][:mch.span()[0]], mch.group()[1:-1]]
+                if cm[0] in dict_ar.keys():
+                    cl = "{} {}".format(arg_1[0], cm[1])
+                    return dict_ar[cm[0]](cl)
+        print("*** Unknown syntax: {}".format(arg))
+        return False
 
 
 if __name__ == "__main__":
