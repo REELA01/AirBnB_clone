@@ -11,7 +11,11 @@ from models.review import Review
 
 
 class FileStorage:
-    """FIileSorage calss represnation"""
+    """FIileSorage calss represnation
+     Attributes:
+        __file_path (str): file name to save
+        __objects (dict): instance dirctory
+    """
     __file_path = "file.json"
     __objects = {}
 
